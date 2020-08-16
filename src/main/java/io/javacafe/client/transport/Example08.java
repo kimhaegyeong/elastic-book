@@ -23,7 +23,7 @@ public class Example08 {
 
     @SuppressWarnings({ "resource", "unchecked" })
 	public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Settings settings = Settings.builder() .put("cluster.name", "javacafe-es").build();
+        Settings settings = Settings.builder() .put("cluster.name", "elasticsearch").build();
 
         TransportClient client =
                 new PreBuiltTransportClient(settings)
@@ -37,13 +37,25 @@ public class Example08 {
         String TYPE_NAME = "_doc";
 
         // 한건의 문서 수정
-        String _id = "20174244";
+        //String _id = "20174244";
+        /*
         UpdateRequest updateRequest = new UpdateRequest(INDEX_NAME, TYPE_NAME, _id)
                 .doc(jsonBuilder()
                         .startObject()
                         .field("movieNm", "수정 문서")
                         .endObject());
-
+		*/
+        
+        String _id = "W1_l9nMBZ8RtBLXGqYlB";
+        UpdateRequest updateRequest = new UpdateRequest();
+        updateRequest.index(INDEX_NAME);
+        updateRequest.type(TYPE_NAME);
+        updateRequest.id(_id);
+        updateRequest.doc(jsonBuilder()
+                .startObject()
+                    .field("movieNm", "수정 문서")
+                .endObject());
+        
         client.update(updateRequest).get();
 
 
