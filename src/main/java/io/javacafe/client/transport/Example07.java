@@ -10,6 +10,7 @@ import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryAction;
+import org.elasticsearch.index.reindex.DeleteByQueryRequestBuilder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 /**
@@ -23,7 +24,7 @@ public class Example07 {
 
     @SuppressWarnings({ "resource", "unchecked" })
 	public static void main(String[] args) throws IOException {
-        Settings settings = Settings.builder() .put("cluster.name", "javacafe-es").build();
+        Settings settings = Settings.builder() .put("cluster.name", "elasticsearch").build();
 
         TransportClient client =
                 new PreBuiltTransportClient(settings)
@@ -43,10 +44,17 @@ public class Example07 {
 
         
         // 여러건의 문서 삭제
+        /*
         BulkByScrollResponse bulkByScrollResponse = DeleteByQueryAction.INSTANCE.newRequestBuilder(client)
                 .filter(QueryBuilders.matchQuery("movieNm", "바람난 아내들2"))
                 .source(INDEX_NAME)
                 .get();
+        */
+        BulkByScrollResponse bulkByScrollResponse =
+        		  new DeleteByQueryRequestBuilder(client, DeleteByQueryAction.INSTANCE)
+        		    .filter(QueryBuilders.matchQuery("movieNm", "바람난 아내들2")) 
+        		    .source(INDEX_NAME)                                  
+        		    .get(); 
         
         long deleted = bulkByScrollResponse.getDeleted();
 
