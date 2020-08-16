@@ -23,7 +23,7 @@ public class Example09 {
 
     @SuppressWarnings({ "resource", "unchecked" })
 	public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Settings settings = Settings.builder() .put("cluster.name", "javacafe-es").build();
+        Settings settings = Settings.builder() .put("cluster.name", "elasticsearch").build();
 
         TransportClient client =
                 new PreBuiltTransportClient(settings)
@@ -35,18 +35,20 @@ public class Example09 {
         //타입명
         String TYPE_NAME = "_doc";
 
+        
         MultiGetResponse multiGetItemResponses = client.prepareMultiGet()
-                .add(INDEX_NAME, TYPE_NAME, "20184623")
-                .add(INDEX_NAME, TYPE_NAME, "20174244")
+                .add(INDEX_NAME, TYPE_NAME, "Ll9D93MBZ8RtBLXG747Y")
+                .add(INDEX_NAME, TYPE_NAME, "W1_l9nMBZ8RtBLXGqYlB")
                 .get();
 
         for (MultiGetItemResponse itemResponse : multiGetItemResponses) {
             GetResponse response1 = itemResponse.getResponse();
             if (response1.isExists()) {
                 String json = response1.getSourceAsString();
+                System.out.println(json);
             }
         }
-
+	
 
     }
 }
